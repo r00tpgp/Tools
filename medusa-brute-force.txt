@@ -1,0 +1,54 @@
+medusa -h 192.168.180.156 -U users2.txt -P rockyou.txt -M ssh
+
+
+AFP
+Apple Filing Protocol
+CVS
+Concurrent Versions System
+FTP
+FTP and FTPS (FTP/Auth TLS and FTP over SSL)
+HTTP
+HTTP/HTTPS (Basic authentication, NTLM, Digest)
+IMAP
+IMAP (143)/IMAPS (993)
+MS-SQL
+Medusa auto-detects port number on which the server is running
+MySQL
+Also supports pass-the-hash abilities for pre 4.1 versions.
+NCP
+Netware NCP Protocol
+NNTP
+Network News Transfer Protocol
+PcAnywhere
+For details: http://foofus.net/goons/jmk/medusa/medusa-pcanywhere.html
+POP3
+POP3 (110) and POP3S (995)
+PostgreSQL
+Option available to set remote database name
+REXEC
+Remote Process Execution
+RLOGIN
+Remote Login (513)
+RSH
+Remote Shell
+SMBNT
+Support all Windows Network Authentication
+SMTP-AUTH
+SMTP Authentication with TLS (STARTTLS extension)
+SMTP-VRFY
+List of usernames can be provided through -U option
+SNMP
+Simple Network Management Protocol
+SSH
+Secure Shell
+SVN
+Subversion
+Telnet
+Telnet (23) and Telnets (992)
+VMAUTHD
+VMware Authentication Daemon. Supports both non-SSL and SSL.
+VNC
+Identifies and acts on anti-bruteforcing functionalities of UltraVNC and RealVNC
+Web Form
+Handles GET/POST requests
+

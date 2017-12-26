@@ -1,0 +1,9 @@
+
+# Nikto scan:
+nikto -h http://ip:port > nikto_port.txt
+
+# wget robot:
+wget http://<ip>:port/robots.txt -O robots_port.txt
+
+# dirb scan:
+dirb http://ip:port -o dirb_port -w  

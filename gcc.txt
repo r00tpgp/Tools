@@ -1,0 +1,4 @@
+# to compile exploit for 32bit, static binary without any dynamic linking, useful if no glibc libs available on victim host
+# see https://stackoverflow.com/questions/12075403/gcc-reduce-libc-required-version/12088019
+
+gcc -m32 -Wl,--hash-style=both exploit.c -o exploit

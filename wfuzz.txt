@@ -1,0 +1,1 @@
+wfuzz -c -v -w /usr/share/wordlists/rockyou.txt --hc 404 http://192.168.180.162/FUZZ.php

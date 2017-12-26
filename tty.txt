@@ -1,0 +1,3 @@
+
+# to spawn tty - needed to run interactive sessions like mysql, sudo, su, etc
+python -c 'import pty;pty.spawn("/bin/bash")'

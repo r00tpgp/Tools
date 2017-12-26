@@ -1,0 +1,188 @@
+#!/bin/bash
+
+###################################################
+#              Recon Script
+#
+# Version: v2_08102016
+# Created By: Seclyn
+# Description: For initial recon of network/hosts.
+#
+###################################################
+#             Set Variables
+         workdir=~/exam2
+#
+###################################################
+clear
+
+# Ping Scan
+#tput setaf 2; echo Current Hosts On the Network:
+#tput setaf 7;
+#echo ----------------------------------------------
+#nmap -sn 192.168.137.254/32 | grep "Nmap" | cut -d " " -f 5 > nmap-alive.txt
+#cat nmap-alive.txt
+#echo ----------------------------------------------------------
+
+# Select IP to Target
+tput setaf 4; echo Enter The IP Of The Target:
+tput setaf 7;
+echo --------------------------------------------
+read ip
+echo Making directory $workdir/$ip
+mkdir $workdir/$ip
+cd $workdir/$ip
+echo
+
+# Quick Nmap Scan To Get You Started
+tput setaf 5;
+echo --------------------------------------------
+echo         Nmap Scan  - Host $ip
+echo --------------------------------------------
+tput setaf 7;
+echo
+nmap $ip -A -T5 -oN nmap_$ip
+nmap -sU $ip -T5 -oN nmap_udp_$ip
+echo
+
+# Nikto, dirb & Nmap HTTP Enum
+tput setaf 2;
+echo ------------------------------------
+echo Running Nikto, Nmap HTTP Enum scan. 
+echo ------------------------------------
+tput setaf 7;
+sleep 10
+echo Checking For HTTP Services . . . .
+if grep "http" nmap_$ip; then
+	nikto -h $ip > nikto_$ip.txt #-ask no
+        echo Niko output stored in nikto_$ip.txt
+	wget http://$ip/robots.txt -O robots_$ip.txt
+	nmap $ip -sV --script "http-sitemap-gen*,http-methods,http-mobile*, \
+		http-open*,http-sql*,http-userdir*,http-vhosts,http-webdav*, \
+		http-iis-webdav*,http-enum*,http-frontpage*, \
+		http-useragent*" -oN nmap_http_$ip  
+	echo Nmap HTTP Enum stored in nmap_http_$ip 
+	dirb http://$ip -o dirb_$ip -w
+	echo Scanned using common wordlist, you might want to do a thorough scan
+else
+	echo No HTTP Services Found On $ip
+	echo No HTTP Services Found on $ip > nikto_NO_HTTP_$ip
+fi
+echo
+echo
+
+# Dirb
+#tput setaf 4;
+#echo -----------------------------------------------
+#echo Running dirb scan.
+#echo ---------------------------------------------------
+#tput setaf 7;
+#dirb http://$ip -o dirb_$ip -w
+#echo Scanned using common wordlist, you might want to do a thorough scan
+#echo -------------------------------------------------------------------
+
+# SMB Enum
+tput setaf 2;
+echo ---------------------------------------------------------
+echo Running enum4linux scan. Output to enum4linux_$ip.txt
+echo ---------------------------------------------------------
+tput setaf 7;
+sleep 10
+echo Checking For SMB Services . . . .
+if grep "smb" nmap_$ip; then
+	enum4linux $ip > enum4linux_$ip.txt
+	echo SMB Enum stored in enum4linux_$ip
+else
+	echo No SMB Services Found on $ip
+	echo No SMB Services Found on $ip > smb_NO_SMB_$ip
+fi
+echo
+echo
+
+# FTP Enum
+tput setaf 2;
+echo ---------------------------------------------------------
+echo Running Nmap ftp scan. Output to nma_ftp_$ip.txt
+echo ---------------------------------------------------------
+tput setaf 7;
+sleep 10
+echo Checking For FTP Services . . . .
+if grep "ftp" nmap_$ip; then
+        nmap $ip --script ftp-* -oN nmap_ftp_$ip
+        echo FTP Enum stored in nmap_ftp_$ip
+else
+        echo No FTP  Services Found on $ip
+        echo No FTP Services Found on $ip > NO_FTP_$ip
+fi
+echo
+echo
+
+# SSH Enum
+tput setaf 2;
+echo ---------------------------------------------------------
+echo Running Nmap SSH scan. Output to nmap_ssh_$ip.txt
+echo ---------------------------------------------------------
+tput setaf 7;
+sleep 10
+echo Checking For SSH Services . . . .
+if grep "ssh" nmap_$ip; then
+        nmap $ip --script ssh-*,ssl-* -oN nmap_ssh_$ip
+        echo SSH Enum stored in nmap_ssh_$ip
+else
+        echo No SSH  Services Found on $ip
+        echo No SSH Services Found on $ip > NO_SSH_$ip
+fi
+echo
+echo
+
+# SNMP Enum
+tput setaf 2;
+echo ---------------------------------------------------------
+echo Running SNMP scan. Output to nmap_snmp_$ip.txt
+echo ---------------------------------------------------------
+tput setaf 7;
+sleep 10
+echo Checking For SNMP Services . . . .
+if grep "snmp" nmap_$ip; then
+        nmap $ip --script snmp-* -oN nmap_snmp_$ip
+        echo SSH Enum stored in nmap_snmp_$ip
+else
+        echo No SNMP  Services Found on $ip
+        echo No SNMP Services Found on $ip > NO_SNMP_$ip
+fi
+echo
+echo
+
+# DNS Enum
+tput setaf 2;
+echo ---------------------------------------------------------
+echo Running DNS scan. Output to nmap_dns_$ip.txt
+echo ---------------------------------------------------------
+tput setaf 7;
+sleep 10
+echo Checking For DNS Services . . . .
+if grep "ssh" nmap_$ip; then
+        nmap $ip --script dns-* -oN nmap_dns_$ip
+        echo DNS Enum stored in nmap_dns_$ip
+else
+        echo No DNS Services Found on $ip
+        echo No DNS Services Found on $ip > NO_DNS_$ip
+fi
+echo
+echo
+
+tput setaf 4;
+echo
+echo --------------------------------------------
+echo         Nmap Long Scan  - Host $ip
+echo --------------------------------------------
+tput setaf 7;
+echo Scan will take some time. Output to nmap_$ip
+echo
+nmap -sV $ip -p- -A -T5 -oN nmap_full_$ip --stats-every 10s
+echo --------------------------------------------
+
+echo Scan completed for $ip
+echo Happy Hunting!
+echo --------------------------------------------
+echo
+ls -lth $workdir/$ip
+#end

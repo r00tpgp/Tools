@@ -1,0 +1,3 @@
+# to connect to smb share (remember!! enum4linux doesn't try to connect users for you!! do it yourself)
+
+$ smbclient //10.11.1.128/wwwroot -U myuser

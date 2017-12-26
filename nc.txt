@@ -1,0 +1,4 @@
+
+#To keep our netcat listener running even after a shell terminates we might want to wrap it in a simple bash loop.
+
+$ while true; do nc -l -p 4444; done
